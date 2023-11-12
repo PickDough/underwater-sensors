@@ -1,0 +1,36 @@
+services:
+  sensors-api:
+    build:
+      dockerfile: deployment/api/Dockerfile
+      context: .
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=fish
+      - POSTGRES_PASSWORD=fish
+      - POSTGRES_DB=fish
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d/
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+networks:
+  default:
+    driver: bridge
+volumes:
+  db:
+    driver: local
