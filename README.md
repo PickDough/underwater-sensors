@@ -4,13 +4,11 @@
 ```
 docker compose up
 ```
----
 
 ## Run ent-to-end tests
 ```
 go test .\src\api\
 ```
----
 ## Docs
 
 Система поділена на три мікросервіси:
