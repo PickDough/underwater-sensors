@@ -1,0 +1,72 @@
+sensors:
+  # alpha
+  - group: alpha
+    coordinates:
+      x: 100.0
+      y: 250.0
+      z: -130.0
+    rate: 5
+  - group: alpha
+    coordinates:
+      x: 125.0
+      y: 250.0
+      z: -200.0
+    rate: 10
+  # beta
+  - group: beta
+    coordinates:
+      x: -80.0
+      y: 40.0
+      z: -130.0
+    rate: 10
+  # gamma
+  - group: gamma
+    coordinates:
+      x: -300.0
+      y: -200.0
+      z: -250.0
+    rate: 5
+  - group: gamma
+    coordinates:
+      x: -350.0
+      y: -188.0
+      z: -275.0
+    rate: 10
+  - group: gamma
+    coordinates:
+      x: -280.0
+      y: -240.0
+      z: -300.0
+    rate: 15
+fishes:
+# source: https://randomgenerate.io/random-fish-generator
+  - name: Lumpfish
+    interesting_fact: The lumpfish have sticky suction cups on their fins
+  - name: Blue Shark
+    interesting_fact: Blue sharks can have up to 135 pups at a time
+  - name: Dragon Eel
+    interesting_fact: Dragon eels have double jaws and two sets of razor-sharp teeth
+  - name: Sleeper Shark
+    interesting_fact: The Greenland shark is one of the longest living vertebrates in the world
+  - name: Telescope Fish
+    interesting_fact: Swallows food, much of it larger than them, whole
+  - name: Pacific Sleeper Shark
+    interesting_fact: In 2015, a Pacific Sleeper Shark was filmed living underneath an active volcano near the Solomon Islands. This shark is able to survive in waters with very high temperatures and acidity!
+  - name: Krill
+    interesting_fact: The krill is perhaps the most important animal in the marine ecosystem
+  - name: Yellowfin Tuna
+    interesting_fact: The yellowfin forms schools with other tuna species
+  - name: Anchovies
+    interesting_fact: November 12th is celebrated as National Pizza with the Works Except Anchovies Day
+  - name: Labout’s Fairy Wrasse
+    interesting_fact: Females are sequential hermaphrodites, which means they can convert to males anytime during their life cycle
+  - name: Triggerfish
+    interesting_fact: There are 40 species of Triggerfish, all with different coloring and patterns
+  - name: Blue Catfish
+    interesting_fact: It's a strong fighter when caught on a fishing line
+  - name: Goldfish
+    interesting_fact: Goldfish and common carp can mate and produce offspring
+  - name: Boxfish
+    interesting_fact: Can release a toxin from its skin
+  - name: Redtail Catfish
+    interesting_fact: One of three giant catfish species

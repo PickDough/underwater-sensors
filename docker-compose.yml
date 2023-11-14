@@ -3,12 +3,42 @@ services:
     build:
       dockerfile: deployment/api/Dockerfile
       context: .
+    environment:
+      - DB_DNS=postgres://fish:fish@postgres-host:5432/fish?sslmode=disable
     depends_on:
       - db
+    restart: always
     ports:
       - "8080:8080"
+  sensors-sensor-channels:
+    build:
+      dockerfile: deployment/sensor_channels/Dockerfile
+      context: .
+    environment:
+      - RABBITMQ_CONN=amqp://fish:fish@rabbitmq-host:5672/
+      - RABBITMQ_QUEUE=sensor_queue
+      - CONFIG_PATH=src/sensor_channels/config.yml
+    depends_on:
+      - rabbitmq
+    restart: always
+  sensors-sensor-readers:
+    build:
+      dockerfile: deployment/sensor_readers/Dockerfile
+      context: .
+    environment:
+      - DB_DNS=postgres://fish:fish@postgres-host:5432/fish?sslmode=disable
+      - RABBITMQ_CONN=amqp://fish:fish@rabbitmq-host:5672/
+      - RABBITMQ_QUEUE=sensor_queue
+    depends_on:
+      - rabbitmq
+      - db
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 2
   db:
     image: postgres
+    hostname: postgres-host
     restart: always
     environment:
       - POSTGRES_USER=fish
@@ -21,16 +51,18 @@ services:
       - ./db:/docker-entrypoint-initdb.d/
   rabbitmq:
     image: rabbitmq:management
-    container_name: rabbitmq
+    hostname: rabbitmq-host
+    restart: always
     environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_DEFAULT_USER=fish
+      - RABBITMQ_DEFAULT_PASS=fish
     ports:
       - "5672:5672"
       - "15672:15672"
-networks:
-  default:
-    driver: bridge
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq
 volumes:
   db:
+    driver: local
+  rabbitmq:
     driver: local

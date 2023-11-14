@@ -1,0 +1,155 @@
+openapi: 3.0.3
+info:
+  title: Underwater Sensors API
+  description: API for gathering information about underware world from sensors
+  version: 1.0.0
+  contact: {}
+servers:
+  - url: http://localhost
+  - url: http://localhost:8080
+paths:
+  /group/{groupName}/temperature/average:
+    get:
+      tags:
+        - Group
+      summary: Group Average Temperature
+      description: >-
+        Request returns average temperature inside the group. The Group is
+        passed through path varaible.
+      operationId: groupAverageTemperature
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Temperature'
+    parameters:
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+          example: gamma
+        description: Group of sensors which data will be used
+  /group/{groupName}/species:
+    get:
+      tags:
+        - Group
+      summary: Group Species
+      description: >-
+        Request returns list of all fishes and their count which were detected
+        by group of sensors.
+      operationId: groupSpecies
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                allOf:
+                  - $ref: '#/components/schemas/Fish'
+    parameters:
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+          example: gamma
+        description: Group of sensors which data will be used
+  /group/{groupName}/species/top/{N}:
+    get:
+      tags:
+        - Group
+      summary: Top N Group Species
+      description: >-
+        Request returns list of fishes ordered by ones with higher count and
+        limited by N entries.
+      operationId: topNGroupSpecies
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                allOf:
+                  - $ref: '#/components/schemas/Fish'
+    parameters:
+      - name: groupName
+        in: path
+        required: true
+        schema:
+          type: string
+          example: gamma
+        description: Group of sensors which data will be used
+      - name: 'N'
+        in: path
+        required: true
+        schema:
+          type: string
+          example: '3'
+        description: Number of species to fetch
+  /sensor/{codename}/temperature/average:
+    get:
+      tags:
+        - Sensor
+      summary: Sensor Average Temperature in time window
+      description: >-
+        Request returns average temperature that sensor detected in specified
+        period.
+      operationId: sensorAverageTemperatureInTimeWindow
+      parameters:
+        - name: from
+          in: query
+          schema:
+            type: string
+            example: '1699829393'
+          description: Time window start
+        - name: till
+          in: query
+          schema:
+            type: string
+            example: '1699922993'
+        - name: ''
+          in: query
+          schema:
+            type: string
+          description: Time window end
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Temperature'
+    parameters:
+      - name: codename
+        in: path
+        required: true
+        schema:
+          type: string
+          example: gamma-1
+        description: Pair of group and index which uniquely identify sensor
+tags:
+  - name: Group
+    description: Group requests
+  - name: Sensor
+    description: Sensor requests
+
+components:
+  schemas:
+    Temperature:
+      type: object
+      properties:
+        temperature_c:
+          type: number
+          format: float32
+    Fish:
+      type: object
+      properties:
+        name:
+          type: string
+        count:
+          type: integer
