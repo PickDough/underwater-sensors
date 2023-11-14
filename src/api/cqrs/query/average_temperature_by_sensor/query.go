@@ -6,7 +6,7 @@ import (
 )
 
 type AverageTemperatureBySensorResult struct {
-	TemperatureC float32
+	TemperatureC float32 `json:"temperature_c"`
 }
 
 type AverageTemperatureBySensorQuery struct {
